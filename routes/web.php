@@ -20,3 +20,18 @@ Route::get('/', function () {
 
 // NEW ADMIN ROUTE: Loads the Admin Dashboard component
 Route::get('/admin/dashboard', AdminDashboard::class);
+
+
+// Protected routes that require authentication
+Route::middleware(['auth'])->group(function () {
+
+    // The main user dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Fortify's generated routes (like profile update, password change, etc.)
+    // These are typically included here if you are using Fortify without Breeze.
+    // However, since Fortify handles its own routes, we only need the view link above.
+
+});
