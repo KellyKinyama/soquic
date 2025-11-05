@@ -10,22 +10,16 @@ use Illuminate\Support\Facades\DB;
 
 class ExchangeInitiator extends Component
 {
-    // Public properties mapped to the view
     public $transactionId;
     public $transaction;
 
-    // Listeners for component communication (e.g., from the Dispute Form)
     protected $listeners = ['transactionUpdated' => 'loadTransaction'];
 
     public function mount()
     {
-        // Load transaction if an ID is set on the URL/initial component state
         $this->loadTransaction();
     }
 
-    /**
-     * Loads the transaction details from the database.
-     */
     public function loadTransaction()
     {
         if ($this->transactionId) {
@@ -38,13 +32,9 @@ class ExchangeInitiator extends Component
 
     /**
      * Confirms receipt of cash payment, finalizes the transaction, and rewards the Angel.
-     * This method contains the core FINALIZATION business logic.
      */
     public function confirmReceipt()
     {
-        // Ensure data is fresh before acting
-        $this->loadTransaction();
-
         if (!$this->transaction || $this->transaction->status !== 'IN_PROGRESS') {
             session()->flash('error', 'Transaction not found or is not in progress.');
             return;
@@ -52,14 +42,14 @@ class ExchangeInitiator extends Component
 
         try {
             DB::transaction(function () {
-                // --- 1. Update Transaction Status ---
+                // --- 1. FINALIZATION LOGIC ---
+                // a. Update Transaction Status
                 $this->transaction->update([
                     'status' => 'COMPLETED',
                     'payment_method' => 'Cash Received Confirmation',
                 ]);
 
-                // --- 2. Grant Reward to Angel ---
-                // Rewards the Angel for completing the exchange
+                // b. Grant Reward to Angel
                 Reward::create([
                     'user_id' => $this->transaction->angel_id,
                     'points' => 10, // Example: 10 points per completion
@@ -67,19 +57,29 @@ class ExchangeInitiator extends Component
                     'description' => 'Reward for completing transaction #' . $this->transaction->id,
                 ]);
 
-                // --- 3. Angel Fund Transfer/Bonus ---
-                // Adds a small operational bonus to the Angel's wallet (optional business rule)
+                // c. Angel Fund Transfer/Bonus
                 $angelWallet = Wallet::where('user_id', $this->transaction->angel_id)->first();
                 if ($angelWallet) {
+                    // Assuming a small bonus is paid to the Angel upon completion
                     $angelWallet->increment('coin_balance', 0.50);
                 }
 
                 session()->flash('success', 'Receipt confirmed! Funds released and Angel rewarded.');
-                // Trigger view refresh
-                $this->dispatch('transactionUpdated');
+                $this->dispatch('transactionUpdated'); // Refresh data
             });
         } catch (\Exception $e) {
             session()->flash('error', 'Finalization failed: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Dispatches the event to open the dispute form with the transaction ID.
+     * This is the fix for the dispatch dependency error.
+     */
+    public function dispatchDisputeForm()
+    {
+        if ($this->transactionId) {
+            $this->dispatch('openDisputeForm', transactionId: $this->transactionId);
         }
     }
 

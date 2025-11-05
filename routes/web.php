@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\AdminDashboard;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// NEW ADMIN ROUTE: Loads the Admin Dashboard component
+Route::get('/admin/dashboard', AdminDashboard::class);
