@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            // Must be run first as other tables reference users
+            UserSeeder::class,
+            // Wallets need users to exist
+            WalletSeeder::class,
+            // Transactions need users to exist
+            TransactionSeeder::class,
+            RewardSeeder::class,
+        ]);
     }
 }
