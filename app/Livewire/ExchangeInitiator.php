@@ -79,7 +79,9 @@ class ExchangeInitiator extends Component
     public function dispatchDisputeForm()
     {
         if ($this->transactionId) {
-            $this->dispatch('openDisputeForm', transactionId: $this->transactionId);
+
+
+            $this->dispatch('openDisputeForm', ['transactionId'=>$this->transactionId]);
         }
     }
 

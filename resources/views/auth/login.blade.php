@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.auth>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
@@ -74,4 +74,4 @@
     </div>
 
 
-</x-layouts.app>
+</x-layouts.auth>

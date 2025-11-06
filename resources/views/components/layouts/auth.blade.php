@@ -22,11 +22,11 @@
 <body>
 
     <!-- Navigation Bar (Bootstrap 5) -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container-fluid">
             <!-- App Name/Logo -->
             <a class="navbar-brand text-primary fw-bold" href="{{ url('/') }}">
-                So Quic
+                My App
             </a>
 
             <!-- Toggler for Mobile -->
@@ -36,41 +36,10 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                {{-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- Standard Link -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                    </li>
-
-
-                </ul> --}}
-
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- Standard Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                    </li>
-                    <!-- Standard Link -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/')}}">Make a transaction</a>
-                    </li>
-                    <!-- Standard Link -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin dashboard</a>
-                    </li>
-
-                     <!-- Standard Link -->
-                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('purchase') }}">Purchase coins</a>
-                    </li>
-
-                     <!-- Standard Link -->
-                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('transfer') }}">Transfer coins</a>
-                    </li>
-
-                    <!-- Standard Link -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rewards-withdrawal') }}">Withdraw coins</a>
                     </li>
                 </ul>
 
@@ -107,7 +76,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
     <!-- Page Content Slot -->
     <main class="container mt-4">
